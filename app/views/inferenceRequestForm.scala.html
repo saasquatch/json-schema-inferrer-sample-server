@@ -1,0 +1,65 @@
+@(reqForm: play.data.Form[models.InferenceRequest])(implicit messages: play.i18n.Messages)
+<script>
+function formatJsonSample() {
+  var sampleTextarea = document.getElementById("sample");
+  try {
+    sampleTextarea.value = JSON.stringify(JSON.parse(sampleTextarea.value), null, 2);
+  } catch (e) {
+    alert(e);
+  }
+}
+</script>
+@helper.form(action = controllers.routes.HomeController.inferenceRequestFormSubmit()) {
+  @helper.textarea(reqForm("sample"),
+      Symbol("_label") -> "JSON sample",
+      Symbol("rows") -> "20", Symbol("cols") -> "80")
+  <button type="submit">Submit</button>
+  <button type="button" onclick="formatJsonSample()">Format JSON</button>
+  @helper.inputText(reqForm("arraySampleAsMulti"),
+      Symbol("type") -> "checkbox",
+      Symbol("_label") -> "Treat array sample as multiple samples")
+  @helper.select(reqForm("specVersion"),
+      Seq(("DRAFT_04", "draft-04"), ("DRAFT_06", "draft-06"), ("DRAFT_07", "draft-07")),
+      Symbol("_label") -> "Spec Version")
+  @helper.inputText(reqForm("examplesLimit"),
+      Symbol("_label") -> "Limit for examples (0 to disable examples)",
+      Symbol("type") -> "number",
+      Symbol("placeholder") -> "0")
+  @helper.select(reqForm("integerTypePreference"),
+      Seq(("IF_ALL", "use integer if all the number samples are integers"),
+          ("IF_ANY", "use integer wherever possible"),
+          ("NEVER", "always use number instead of integer")),
+      Symbol("_label") -> "Preference for integer type")
+  @helper.select(reqForm("additionalPropertiesPolicy"),
+      Seq(("noOp", "noOp"), ("allowed", "allowed"), ("notAllowed", "notAllowed"),
+          ("existingTypes", "existingTypes")),
+      Symbol("_label") -> "Policy for additionalProperties")
+  @helper.select(reqForm("requiredPolicy"),
+      Seq(("noOp", "noOp"), ("commonFields", "commonFields"),
+          ("nonNullCommonFields", "nonNullCommonFields")),
+      Symbol("_label") -> "Policy for required")
+  @helper.select(reqForm("defaultPolicy"),
+      Seq(("noOp", "noOp"), ("useFirstSamples", "useFirstSamples"),
+          ("useLastSamples", "useLastSamples")),
+      Symbol("_label") -> "Policy for default")
+  @helper.inputText(reqForm("inferObjectSizeLimits"),
+      Symbol("type") -> "checkbox",
+      Symbol("_label") -> "Infer object size limits")
+  @helper.inputText(reqForm("inferArrayLengthLimits"),
+      Symbol("type") -> "checkbox",
+      Symbol("_label") -> "Infer array length limits")
+  @helper.inputText(reqForm("inferStringLengthLimits"),
+      Symbol("type") -> "checkbox",
+      Symbol("_label") -> "Infer string length limits")
+  @helper.select(reqForm("formatInferrers"),
+      Seq(("dateTime", "dateTime"), ("email", "email"), ("ip", "ip"), ("uri", "uri")),
+      Symbol("multiple") -> "",
+      Symbol("_label") -> "Infer format for (hold ctrl/cmd to multi-select)")
+  <button type="submit">Submit</button>
+}
+<p>
+  Powered by
+  <a href="https://github.com/saasquatch/json-schema-inferrer">
+    saasquatch/json-schema-inferrer
+  </a>
+</p>
