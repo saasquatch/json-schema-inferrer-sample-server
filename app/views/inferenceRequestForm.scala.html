@@ -1,4 +1,8 @@
 @(reqForm: play.data.Form[models.InferenceRequest])(implicit messages: play.i18n.Messages)
+<!DOCTYPE html>
+<html>
+<head>
+<title>json-schema-inferrer</title>
 <script>
 function formatJsonSample() {
   var sampleTextarea = document.getElementById("sample");
@@ -9,11 +13,31 @@ function formatJsonSample() {
   }
 }
 </script>
+<style>
+body {
+  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Courier New', Courier, monospace;
+  font-size: 14px;
+}
+button {
+  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Courier New', Courier, monospace;
+}
+input {
+  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Courier New', Courier, monospace;
+}
+select {
+  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Courier New', Courier, monospace;
+}
+textarea {
+  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Courier New', Courier, monospace;
+}
+</style>
+</head>
+<body>
 @helper.form(action = controllers.routes.HomeController.inferenceRequestFormSubmit()) {
   @helper.textarea(reqForm("sample"),
       Symbol("_label") -> "JSON sample",
-      Symbol("rows") -> "20", Symbol("cols") -> "80")
-  <button type="submit">Submit</button>
+      Symbol("rows") -> "16", Symbol("cols") -> "64")
+  <button type="submit"><b>Submit</b></button>
   <button type="button" onclick="formatJsonSample()">Format JSON</button>
   @helper.inputText(reqForm("arraySampleAsMulti"),
       Symbol("type") -> "checkbox",
@@ -58,7 +82,7 @@ function formatJsonSample() {
       Seq(("dateTime", "dateTime"), ("email", "email"), ("ip", "ip"), ("uri", "uri")),
       Symbol("multiple") -> "",
       Symbol("_label") -> "Infer format for (hold ctrl/cmd to multi-select)")
-  <button type="submit">Submit</button>
+  <button type="submit"><b>Submit</b></button>
 }
 <p>
   Powered by
@@ -66,3 +90,5 @@ function formatJsonSample() {
     saasquatch/json-schema-inferrer
   </a>
 </p>
+</body>
+</html>
