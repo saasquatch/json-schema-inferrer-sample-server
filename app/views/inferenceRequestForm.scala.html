@@ -42,6 +42,9 @@ function formatJsonSample() {
       Seq(("noOp", "noOp"), ("useFirstSamples", "useFirstSamples"),
           ("useLastSamples", "useLastSamples")),
       Symbol("_label") -> "Policy for default")
+  @helper.select(reqForm("titleGenerator"),
+      Seq(("noOp", "noOp"), ("useFieldNames", "useFieldNames")),
+      Symbol("_label") -> "Policy for titles")
   @helper.inputText(reqForm("inferObjectSizeLimits"),
       Symbol("type") -> "checkbox",
       Symbol("_label") -> "Infer object size limits")

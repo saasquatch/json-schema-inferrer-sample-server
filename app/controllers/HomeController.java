@@ -22,6 +22,7 @@ import com.saasquatch.jsonschemainferrer.JsonSchemaInferrerBuilder;
 import com.saasquatch.jsonschemainferrer.ObjectSizeFeature;
 import com.saasquatch.jsonschemainferrer.RequiredPolicies;
 import com.saasquatch.jsonschemainferrer.StringLengthFeature;
+import com.saasquatch.jsonschemainferrer.TitleGenerators;
 import models.InferenceRequest;
 import play.data.Form;
 import play.data.FormFactory;
@@ -36,11 +37,7 @@ public class HomeController extends Controller {
   private static final ObjectWriter prettyWriter = Json.mapper().writerWithDefaultPrettyPrinter();
 
   private static final FormatInferrer uriFormatInferrer = input -> {
-    final String textValue = input.getSample().textValue();
-    if (textValue == null) {
-      return null;
-    }
-    if (UrlValidator.getInstance().isValid(textValue)) {
+    if (UrlValidator.getInstance().isValid(input.getSample().textValue())) {
       return "uri";
     }
     return null;
@@ -85,8 +82,8 @@ public class HomeController extends Controller {
     }
     final JsonSchemaInferrerBuilder b = JsonSchemaInferrer.newBuilder();
     Optional.ofNullable(inferenceRequest.getSpecVersion()).ifPresent(b::setSpecVersion);
-    Optional.ofNullable(inferenceRequest.getExamplesLimit())
-        .ifPresent(examplesLimit -> b.setExamplesPolicy(ExamplesPolicies.first(examplesLimit)));
+    Optional.ofNullable(inferenceRequest.getExamplesLimit()).ifPresent(
+        examplesLimit -> b.setExamplesPolicy(ExamplesPolicies.useFirstSamples(examplesLimit)));
     Optional.ofNullable(inferenceRequest.getIntegerTypePreference())
         .ifPresent(b::setIntegerTypePreference);
     if (inferenceRequest.getAdditionalPropertiesPolicy() != null) {
@@ -123,6 +120,15 @@ public class HomeController extends Controller {
           break;
         case "useLastSamples":
           b.setDefaultPolicy(DefaultPolicies.useLastSamples());
+          break;
+        default:
+          break;
+      }
+    }
+    if (inferenceRequest.getTitleGenerator() != null) {
+      switch (inferenceRequest.getTitleGenerator()) {
+        case "useFieldNames":
+          b.setTitleGenerator(TitleGenerators.useFieldNames());
           break;
         default:
           break;

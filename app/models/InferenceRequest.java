@@ -14,6 +14,7 @@ public class InferenceRequest {
   private String additionalPropertiesPolicy;
   private String requiredPolicy;
   private String defaultPolicy;
+  private String titleGenerator;
   private String inferObjectSizeLimits;
   private String inferArrayLengthLimits;
   private String inferStringLengthLimits;
@@ -83,6 +84,14 @@ public class InferenceRequest {
 
   public void setDefaultPolicy(String defaultPolicy) {
     this.defaultPolicy = defaultPolicy;
+  }
+
+  public String getTitleGenerator() {
+    return titleGenerator;
+  }
+
+  public void setTitleGenerator(String titleGenerator) {
+    this.titleGenerator = titleGenerator;
   }
 
   public String getInferObjectSizeLimits() {
