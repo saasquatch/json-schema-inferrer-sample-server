@@ -6,7 +6,7 @@
 <link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png" />
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  var resultTextarea = document.getElementById("abc");
+  var resultTextarea = document.getElementById("result");
   try {
     resultTextarea.innerHTML = JSON.stringify(JSON.parse(resultTextarea.innerHTML), null, 2);
   } catch (e) {
@@ -22,6 +22,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </style>
 </head>
 <body>
-  <pre id="abc">@Html(result)</pre>
+  <pre id="result">@Html(result)</pre>
 </body>
 </html>
