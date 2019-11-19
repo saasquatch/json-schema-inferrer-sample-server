@@ -9,7 +9,7 @@ import java.util.stream.StreamSupport;
 import javax.inject.Inject;
 import org.apache.commons.validator.routines.UrlValidator;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.saasquatch.jsonschemainferrer.AdditionalPropertiesPolicies;
 import com.saasquatch.jsonschemainferrer.ArrayLengthFeature;
@@ -34,7 +34,7 @@ import play.mvc.Result;
 
 public class HomeController extends Controller {
 
-  private static final ObjectWriter prettyWriter = Json.mapper().writerWithDefaultPrettyPrinter();
+  private static final ObjectMapper mapper = Json.mapper();
 
   private static final FormatInferrer uriFormatInferrer = input -> {
     if (UrlValidator.getInstance().isValid(input.getSample().textValue())) {
@@ -62,21 +62,24 @@ public class HomeController extends Controller {
       final InferenceRequest inferenceRequest =
           formFactory.form(InferenceRequest.class).bindFromRequest(request).get();
       final JsonNode schema = doInfer(inferenceRequest);
-      return ok(prettyWriter.writeValueAsBytes(schema)).as(Http.MimeTypes.JSON);
+      return ok(views.html.inferenceResult.render(mapper.writeValueAsString(schema)));
     } catch (Exception e) {
       e.printStackTrace();
       final String message = e.getMessage();
       if (message == null) {
         return internalServerError();
       }
-      return badRequest(message);
+      return badRequest(views.html.inferenceResult.render(message));
     }
   }
 
   private JsonNode doInfer(InferenceRequest inferenceRequest) {
+    if (inferenceRequest.getSample().trim().isEmpty()) {
+      throw new RuntimeException("Blank JSON input");
+    }
     final JsonNode sample;
     try {
-      sample = Json.mapper().readTree(inferenceRequest.getSample());
+      sample = mapper.readTree(inferenceRequest.getSample());
     } catch (IOException e) {
       throw new UncheckedIOException("Invalid JSON input", e);
     }

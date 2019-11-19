@@ -1,0 +1,27 @@
+@(result: String)
+<!DOCTYPE html>
+<html>
+<head>
+<title>json-schema-inferrer</title>
+<link rel="shortcut icon" type="image/png" href="/assets/images/favicon.png" />
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var resultTextarea = document.getElementById("abc");
+  try {
+    resultTextarea.innerHTML = JSON.stringify(JSON.parse(resultTextarea.innerHTML), null, 2);
+  } catch (e) {
+    // Ignore
+  }
+}, false);
+</script>
+<style>
+* {
+  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Courier New', Courier, monospace;
+  font-size: 13px;
+}
+</style>
+</head>
+<body>
+  <pre id="abc">@Html(result)</pre>
+</body>
+</html>
