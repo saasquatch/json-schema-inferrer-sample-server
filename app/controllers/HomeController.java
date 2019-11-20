@@ -76,9 +76,6 @@ public class HomeController extends Controller {
   }
 
   private JsonNode doInfer(InferenceRequest inferenceRequest) {
-    if (inferenceRequest.getSample().trim().isEmpty()) {
-      throw new RuntimeException("Blank JSON input");
-    }
     final JsonNode sample;
     try {
       sample = mapper.readTree(inferenceRequest.getSample());
