@@ -58,6 +58,9 @@ function formatJsonSample() {
   @helper.select(reqForm("titleGenerator"),
       Seq(("noOp", "noOp"), ("useFieldNames", "useFieldNames")),
       Symbol("_label") -> "Policy for titles")
+  @helper.select(reqForm("multipleOfPolicy"),
+      Seq(("noOp", "noOp"), ("gcd", "gcd")),
+      Symbol("_label") -> "Policy for multipleOf")
   @helper.inputText(reqForm("inferObjectSizeLimits"),
       Symbol("type") -> "checkbox",
       Symbol("_label") -> "Infer object size limits")
@@ -67,6 +70,9 @@ function formatJsonSample() {
   @helper.inputText(reqForm("inferStringLengthLimits"),
       Symbol("type") -> "checkbox",
       Symbol("_label") -> "Infer string length limits")
+  @helper.inputText(reqForm("inferNumberRange"),
+      Symbol("type") -> "checkbox",
+      Symbol("_label") -> "Infer number range")
   @helper.select(reqForm("formatInferrers"),
       Seq(("dateTime", "dateTime"), ("email", "email"), ("ip", "ip"), ("uri", "uri")),
       Symbol("multiple") -> "",

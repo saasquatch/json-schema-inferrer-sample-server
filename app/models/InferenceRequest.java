@@ -15,9 +15,11 @@ public class InferenceRequest {
   private String requiredPolicy;
   private String defaultPolicy;
   private String titleGenerator;
+  private String multipleOfPolicy;
   private String inferObjectSizeLimits;
   private String inferArrayLengthLimits;
   private String inferStringLengthLimits;
+  private String inferNumberRange;
   private List<String> formatInferrers;
 
   public InferenceRequest() {}
@@ -94,6 +96,14 @@ public class InferenceRequest {
     this.titleGenerator = titleGenerator;
   }
 
+  public String getMultipleOfPolicy() {
+    return multipleOfPolicy;
+  }
+
+  public void setMultipleOfPolicy(String multipleOfPolicy) {
+    this.multipleOfPolicy = multipleOfPolicy;
+  }
+
   public String getInferObjectSizeLimits() {
     return inferObjectSizeLimits;
   }
@@ -116,6 +126,14 @@ public class InferenceRequest {
 
   public void setInferStringLengthLimits(String inferStringLengthLimits) {
     this.inferStringLengthLimits = inferStringLengthLimits;
+  }
+
+  public String getInferNumberRange() {
+    return inferNumberRange;
+  }
+
+  public void setInferNumberRange(String inferNumberRange) {
+    this.inferNumberRange = inferNumberRange;
   }
 
   public List<String> getFormatInferrers() {

@@ -19,6 +19,8 @@ import com.saasquatch.jsonschemainferrer.FormatInferrer;
 import com.saasquatch.jsonschemainferrer.FormatInferrers;
 import com.saasquatch.jsonschemainferrer.JsonSchemaInferrer;
 import com.saasquatch.jsonschemainferrer.JsonSchemaInferrerBuilder;
+import com.saasquatch.jsonschemainferrer.MultipleOfPolicies;
+import com.saasquatch.jsonschemainferrer.NumberRangeFeature;
 import com.saasquatch.jsonschemainferrer.ObjectSizeFeature;
 import com.saasquatch.jsonschemainferrer.RequiredPolicies;
 import com.saasquatch.jsonschemainferrer.StringLengthFeature;
@@ -137,6 +139,15 @@ public class HomeController extends Controller {
           break;
       }
     }
+    if (inferenceRequest.getMultipleOfPolicy() != null) {
+      switch (inferenceRequest.getMultipleOfPolicy()) {
+        case "gcd":
+          b.setMultipleOfPolicy(MultipleOfPolicies.gcd());
+          break;
+        default:
+          break;
+      }
+    }
     if (inferenceRequest.getInferObjectSizeLimits() != null) {
       b.enable(ObjectSizeFeature.values());
     }
@@ -145,6 +156,9 @@ public class HomeController extends Controller {
     }
     if (inferenceRequest.getInferStringLengthLimits() != null) {
       b.enable(StringLengthFeature.values());
+    }
+    if (inferenceRequest.getInferNumberRange() != null) {
+      b.enable(NumberRangeFeature.values());
     }
     if (inferenceRequest.getFormatInferrers() != null) {
       final FormatInferrer[] formatInferrers = inferenceRequest.getFormatInferrers().stream()
