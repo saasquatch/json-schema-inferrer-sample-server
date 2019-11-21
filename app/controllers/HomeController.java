@@ -86,6 +86,8 @@ public class HomeController extends Controller {
     Optional.ofNullable(inferenceRequest.getSpecVersion()).ifPresent(b::setSpecVersion);
     Optional.ofNullable(inferenceRequest.getExamplesLimit()).ifPresent(
         examplesLimit -> b.setExamplesPolicy(ExamplesPolicies.useFirstSamples(examplesLimit)));
+    Optional.ofNullable(inferenceRequest.getIntegerTypeCriterion())
+        .ifPresent(b::setIntegerTypeCriterion);
     Optional.ofNullable(inferenceRequest.getIntegerTypePreference())
         .ifPresent(b::setIntegerTypePreference);
     if (inferenceRequest.getAdditionalPropertiesPolicy() != null) {
