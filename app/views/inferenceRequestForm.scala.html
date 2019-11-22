@@ -40,8 +40,7 @@ function formatJsonSample() {
       Symbol("placeholder") -> "0")
   @helper.select(reqForm("integerTypeCriterion"),
       Seq(("NON_FLOATING_POINT", "A number is an integer if it's not a floating point. i.e. 1 is an integer and 1.0 is not."),
-          ("MATHEMATICAL_INTEGER", "A number is an integer if it's mathematical value is an integer. i.e. 1.0 is an integer and 1.5 is not."),
-          ("NEVER", "A number is never an integer")),
+          ("MATHEMATICAL_INTEGER", "A number is an integer if it's mathematical value is an integer. i.e. 1.0 is an integer and 1.5 is not.")),
       Symbol("_label") -> "Criterion for integer type")
   @helper.select(reqForm("integerTypePreference"),
       Seq(("IF_ALL", "use integer if all the number samples are integers"),
