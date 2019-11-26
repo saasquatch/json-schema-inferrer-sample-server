@@ -1,7 +1,6 @@
 package models;
 
 import java.util.List;
-import com.saasquatch.jsonschemainferrer.IntegerTypeCriterion;
 import com.saasquatch.jsonschemainferrer.IntegerTypePreference;
 import com.saasquatch.jsonschemainferrer.SpecVersion;
 
@@ -11,7 +10,7 @@ public class InferenceRequest {
   private String arraySampleAsMulti;
   private SpecVersion specVersion;
   private Integer examplesLimit;
-  private IntegerTypeCriterion integerTypeCriterion;
+  private String integerTypeCriterion;
   private IntegerTypePreference integerTypePreference;
   private String additionalPropertiesPolicy;
   private String requiredPolicy;
@@ -58,11 +57,11 @@ public class InferenceRequest {
     this.examplesLimit = examplesLimit;
   }
 
-  public IntegerTypeCriterion getIntegerTypeCriterion() {
+  public String getIntegerTypeCriterion() {
     return integerTypeCriterion;
   }
 
-  public void setIntegerTypeCriterion(IntegerTypeCriterion integerTypeCriterion) {
+  public void setIntegerTypeCriterion(String integerTypeCriterion) {
     this.integerTypeCriterion = integerTypeCriterion;
   }
 

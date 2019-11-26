@@ -17,6 +17,7 @@ import com.saasquatch.jsonschemainferrer.DefaultPolicies;
 import com.saasquatch.jsonschemainferrer.ExamplesPolicies;
 import com.saasquatch.jsonschemainferrer.FormatInferrer;
 import com.saasquatch.jsonschemainferrer.FormatInferrers;
+import com.saasquatch.jsonschemainferrer.IntegerTypeCriteria;
 import com.saasquatch.jsonschemainferrer.JsonSchemaInferrer;
 import com.saasquatch.jsonschemainferrer.JsonSchemaInferrerBuilder;
 import com.saasquatch.jsonschemainferrer.MultipleOfPolicies;
@@ -86,8 +87,18 @@ public class HomeController extends Controller {
     Optional.ofNullable(inferenceRequest.getSpecVersion()).ifPresent(b::setSpecVersion);
     Optional.ofNullable(inferenceRequest.getExamplesLimit()).ifPresent(
         examplesLimit -> b.setExamplesPolicy(ExamplesPolicies.useFirstSamples(examplesLimit)));
-    Optional.ofNullable(inferenceRequest.getIntegerTypeCriterion())
-        .ifPresent(b::setIntegerTypeCriterion);
+    if (inferenceRequest.getIntegerTypeCriterion() != null) {
+      switch (inferenceRequest.getIntegerTypeCriterion()) {
+        case "nonFloatingPoint":
+          b.setIntegerTypeCriterion(IntegerTypeCriteria.nonFloatingPoint());
+          break;
+        case "mathematicalInteger":
+          b.setIntegerTypeCriterion(IntegerTypeCriteria.mathematicalInteger());
+          break;
+        default:
+          break;
+      }
+    }
     Optional.ofNullable(inferenceRequest.getIntegerTypePreference())
         .ifPresent(b::setIntegerTypePreference);
     if (inferenceRequest.getAdditionalPropertiesPolicy() != null) {
