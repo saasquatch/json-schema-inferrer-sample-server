@@ -2,6 +2,7 @@ package controllers;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,7 +26,7 @@ import com.saasquatch.jsonschemainferrer.NumberRangeFeature;
 import com.saasquatch.jsonschemainferrer.ObjectSizeFeature;
 import com.saasquatch.jsonschemainferrer.RequiredPolicies;
 import com.saasquatch.jsonschemainferrer.StringLengthFeature;
-import com.saasquatch.jsonschemainferrer.TitleGenerators;
+import com.saasquatch.jsonschemainferrer.TitleDescriptionGenerators;
 import models.InferenceRequest;
 import play.data.Form;
 import play.data.FormFactory;
@@ -143,7 +144,7 @@ public class HomeController extends Controller {
     if (inferenceRequest.getTitleGenerator() != null) {
       switch (inferenceRequest.getTitleGenerator()) {
         case "useFieldNames":
-          b.setTitleGenerator(TitleGenerators.useFieldNames());
+          b.setTitleDescriptionGenerator(TitleDescriptionGenerators.useFieldNamesAsTitles());
           break;
         default:
           break;
@@ -159,19 +160,19 @@ public class HomeController extends Controller {
       }
     }
     if (inferenceRequest.getInferObjectSizeLimits() != null) {
-      b.enable(ObjectSizeFeature.values());
+      b.setObjectSizeFeatures(EnumSet.allOf(ObjectSizeFeature.class));
     }
     if (inferenceRequest.getInferArrayLengthLimits() != null) {
-      b.enable(ArrayLengthFeature.values());
+      b.setArrayLengthFeatures(EnumSet.allOf(ArrayLengthFeature.class));
     }
     if (inferenceRequest.getInferStringLengthLimits() != null) {
-      b.enable(StringLengthFeature.values());
+      b.setStringLengthFeatures(EnumSet.allOf(StringLengthFeature.class));
     }
     if (inferenceRequest.getInferNumberRange() != null) {
-      b.enable(NumberRangeFeature.values());
+      b.setNumberRangeFeatures(EnumSet.allOf(NumberRangeFeature.class));
     }
     if (inferenceRequest.getFormatInferrers() != null) {
-      final FormatInferrer[] formatInferrers = inferenceRequest.getFormatInferrers().stream()
+      inferenceRequest.getFormatInferrers().stream()
           .distinct()
           .filter(Objects::nonNull)
           .map(formatInferrer -> {
@@ -189,8 +190,7 @@ public class HomeController extends Controller {
             }
           })
           .filter(Objects::nonNull)
-          .toArray(FormatInferrer[]::new);
-      b.setFormatInferrer(FormatInferrers.chained(formatInferrers));
+          .forEach(b::addFormatInferrers);
     }
     final JsonSchemaInferrer inferrer = b.build();
     final ObjectNode schema;
