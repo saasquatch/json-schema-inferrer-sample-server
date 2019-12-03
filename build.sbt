@@ -15,11 +15,12 @@ EclipseKeys.withJavadoc := true
 EclipseKeys.withSource := true
 
 resolvers ++= Seq(
+  "jitpack" at "https://jitpack.io",
   "bintray-saasquatch-java-libs" at "https://dl.bintray.com/saasquatch/java-libs"
 )
 
 libraryDependencies ++= Seq(
   guice,
-  "com.saasquatch" % "json-schema-inferrer" % "0.1.1-alpha-37",
+  "com.github.saasquatch" % "json-schema-inferrer" % "0.1.1-alpha-37",
   "commons-validator" % "commons-validator" % "1.6"
 )
