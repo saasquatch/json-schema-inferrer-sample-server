@@ -21,6 +21,6 @@ resolvers ++= Seq(
 
 libraryDependencies ++= Seq(
   guice,
-  "com.github.saasquatch" % "json-schema-inferrer" % "0.1.1-alpha-41",
+  "com.github.saasquatch" % "json-schema-inferrer" % "0.1.1-alpha-43",
   "commons-validator" % "commons-validator" % "1.6"
 )
